@@ -64,9 +64,7 @@ const getUviClassName = (uvi) => {
 const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="text-center">
     <h2>${data.cityName}</h2>
-    <h3>${moment
-      .unix(data.weatherData.timezone + data.weatherData.timezone)
-      .format("dddd, Do MMM, YYYY")}
+    <h3>${moment.unix(data.weatherData.dt).format("dddd, Do MMM, YYYY")}
         </h3>
     <hr />
     <img src="http://openweathermap.org/img/w/${
@@ -147,122 +145,6 @@ const renderForecastData = (data) => {
                               each.uvi
                             )}"
                                 >${each.uvi}</span
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- card 2 -->
-        <div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Sunday, 29th May</h5>
-                <div>
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Temperature</div>
-                        <div class="col-sm-12">16 &deg;C</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Humidity</div>
-                        <div class="col-sm-12">20 &percnt;</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Wind Speed</div>
-                        <div class="col-sm-12">35 mph</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">UV index</div>
-                        <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- card 3 -->
-        <div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Sunday, 29th May</h5>
-                <div>
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Temperature</div>
-                        <div class="col-sm-12">16 &deg;C</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Humidity</div>
-                        <div class="col-sm-12">20 &percnt;</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Wind Speed</div>
-                        <div class="col-sm-12">35 mph</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">UV index</div>
-                        <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- card 4 -->
-        <div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Sunday, 29th May</h5>
-                <div>
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Temperature</div>
-                        <div class="col-sm-12">16 &deg;C</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Humidity</div>
-                        <div class="col-sm-12">20 &percnt;</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Wind Speed</div>
-                        <div class="col-sm-12">35 mph</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">UV index</div>
-                        <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- card 5 -->
-        <div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Sunday, 29th May</h5>
-                <div>
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Temperature</div>
-                        <div class="col-sm-12">16 &deg;C</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Humidity</div>
-                        <div class="col-sm-12">20 &percnt;</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Wind Speed</div>
-                        <div class="col-sm-12">35 mph</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">UV index</div>
-                        <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white">1</span>
                         </div>
                     </div>
                 </div>
