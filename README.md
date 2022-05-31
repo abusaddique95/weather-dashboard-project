@@ -4,6 +4,8 @@ A functional weather dashboard
 
 ## Deployed URL
 
+https://abusaddique95.github.io/weather-dashboard-project/
+
 ## Technologies
 
 HTML
