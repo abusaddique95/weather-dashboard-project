@@ -16,40 +16,29 @@ Moment JS
 
 ## HTML
 
+For this project I used html to create a skeleton on how i wanted my application to look. Using bootstrap to style, i deisgned each section how i wanted it to look once the application was completed. Once i was happy with the skeleton i deleted the relevant section which were going to be dynamically rendered further on in the application.
+
 ## Boostrap
+
+Used Bootstrap to create the styling for the page. Used bootstrap classes to make a functional navbar to navigate around the page. Then used further classes to create forms, saved data. Minimal styling such as margins, padding and borders were given to beautify the page.
 
 ## JS
 
+JS was used to prep functions for what we needed the application to do. Event handler was placed of the submit button to listen for clicks and then dynamically render the next screen once it was prompted.
+
+Used jQuery method of template strings to dynamically render the html into JS by passing in data from the API
+
+i Used json.stringify to get the data i needed from the API and then passed it into the template strings to call the data required.
+
+Moment.JS was used to render the date of the current date and the forecast date too.
+
 ## Screenshots
 
-`<div class="d-flex flex-row justify-content-center flex-wrap">
-<!-- card 1 -->
-<div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
-<div class="card-body">
-<h5 class="card-title">Sunday, 29th May</h5>
-<div>
-<div class="row g-0 text-center">
-<div class="col-sm-12 bg-light">Temperature</div>
-<div class="col-sm-12">16 &deg;C</div>
-</div>
+![screenshot](./assets/css/images/homepage.png)
+![screenshot](./assets/images/current-data.png)
+![screenshot](./assets/images/forecast.png)
 
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Humidity</div>
-                        <div class="col-sm-12">20 &percnt;</div>
-                    </div>
+## Mobile viewport
 
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">Wind Speed</div>
-                        <div class="col-sm-12">35 mph</div>
-                    </div>
-
-                    <div class="row g-0 text-center">
-                        <div class="col-sm-12 bg-light">UV index</div>
-                        <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>`;
+![screenshot](./assets/images/mobile.png)
+![screenshot](./assets/images/mobile-forecast.png)
