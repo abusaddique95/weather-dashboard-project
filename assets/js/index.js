@@ -65,7 +65,7 @@ const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="text-center">
     <h2>${data.cityName}</h2>
     <h3>${moment
-      .unix(data?.weatherData.dt + data?.weatherData?.timezone_offset)
+      .unix(data.weatherData + data.weatherData.timezone)
       .format("dddd, Do MMM, YYYY HH:mm:ss")}
         </h3>
     <hr />
@@ -77,21 +77,21 @@ const renderCurrentData = (data) => {
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Temperature</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData?.current?.temp
+          data.weatherData.main.temp
         } &deg;C</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Humidity</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData?.current?.humidity
+          data.weatherData.main.humidity
         } &percnt;</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Wind Speed</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData?.current?.wind_speed
+          data.weatherData.wind.speed
         } mph</div>
     </div>
     
@@ -99,15 +99,14 @@ const renderCurrentData = (data) => {
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">UV index</div>
         <div class="col-sm-12 col-md-8 p-3">
-            <span class="bg-success p-2 text-white">${getUviClassName(
-              data?.weatherData?.current?.uvi
-            )}">${data?.weatherData?.current?.uvi}</span>
+            <span class="bg-success p-2 text-white" ${getUviClassName(
+              data.weatherData.main.uvi
+            )}">${data.weatherData.main.uvi}</span>
         </div>
     </div>
 
     </div>
     </div>`;
-  console.log(currentWeatherCard);
   weatherInfoContainer.append(currentWeatherCard);
 };
 
@@ -272,7 +271,20 @@ const renderForecastData = (data) => {
 
     return forecast;
   };
-  const forecastWeatherCards = data.daily.map(generateCastWeatherCards);
+  //   const forecastCards = data.weatherData.map(generateCastWeatherCards).join;
+
+  const forecastCards = data.weatherData.daily
+    .slice(1, 6)
+    .map(createForecastCard)
+    .join("");
+
+  const forecastWeatherCards = `<div>
+    <h2 class="mt-3 text-center">5-day Forecast</h2>
+    <hr />
+    <div class="d-flex flex-row justify-content-center flex-wrap">
+      ${forecastCards}
+    </div>
+  </div>`;
 
   weatherInfoContainer.append(forecastWeatherCards);
 };
@@ -320,7 +332,7 @@ const renderErrorAlert = () => {
 
 const renderWeatherInfo = async (cityName) => {
   try {
-    // const weatherData = await getWeatherData(cityName);
+    const weatherData = await getWeatherData(cityName);
 
     return true;
   } catch (error) {
@@ -339,7 +351,6 @@ const getWeatherData = async (cityName) => {
   );
 
   const currentData = await fetchData(currentDataUrl);
-  console.log(currentData);
   const lat = currentData?.coord?.lat;
   const lon = currentData?.coord?.lon;
   const displayCityName = currentData?.name;
@@ -358,13 +369,9 @@ const getWeatherData = async (cityName) => {
 
   const forecastData = await fetchData(forecastDataUrl);
 
-  console.log(forecastData);
-  console.log(currentData);
-
   return {
     cityName: displayCityName,
     weatherData: currentData,
-    forecastData,
   };
 };
 
@@ -396,7 +403,7 @@ const handleFormSubmit = async (event) => {
 
     renderCurrentData(weatherData);
 
-    // renderForecastData(weatherData);
+    renderForecastData(weatherData);
 
     // renderCurrentData();
 
