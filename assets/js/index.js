@@ -62,34 +62,35 @@ const getUviClassName = (uvi) => {
 
 // render current data
 const renderCurrentData = (data) => {
+  //console.log("data: " + JSON.stringify(data));
   const currentWeatherCard = `<div class="text-center">
     <h2>${data.cityName}</h2>
-    <h3>${moment.unix(data.weatherData.dt).format("dddd, Do MMM, YYYY")}
+    <h3>${moment.unix(data.weatherData.current.dt).format("dddd, Do MMM, YYYY")}
         </h3>
     <hr />
     <img src="http://openweathermap.org/img/w/${
-      data.weatherData.weather[0].icon
+      data.weatherData.daily[0].weather[0].icon
     }.png" alt="weather-icon">
     </div>
     <div>
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Temperature</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.main.temp
+          data.weatherData.current.temp
         } &deg;C</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Humidity</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.main.humidity
+          data.weatherData.current.humidity
         } &percnt;</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Wind Speed</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.wind.speed
+          data.weatherData.current.wind_speed
         } mph</div>
     </div>
     
@@ -98,8 +99,8 @@ const renderCurrentData = (data) => {
         <div class="col-sm-12 col-md-4 p-3">UV index</div>
         <div class="col-sm-12 col-md-8 p-3">
             <span class="bg-success p-2 text-white" ${getUviClassName(
-              data.weatherData.main.uvi
-            )}">${data.weatherData.main.uvi}</span>
+              data.weatherData.current.uvi
+            )}">${data.weatherData.current.uvi}</span>
         </div>
     </div>
 
@@ -110,11 +111,12 @@ const renderCurrentData = (data) => {
 
 // render future data
 const renderForecastData = (data) => {
-  console.log(data);
+  console.log("inside renderForcast: " + JSON.stringify(data));
   const generateCastWeatherCards = (each) => {
     const forecast = `<div>
     <h2 class="text-center">5 day Forecast</h2>
     <HR />
+    
     <div class="d-flex flex-row justify-content-center flex-wrap">
         <!-- card 1 -->
         <div class="card ms-2 mb-2 shadow p-3 mb-5 bg-body rounded" style="width: 18rem;">
@@ -149,6 +151,7 @@ const renderForecastData = (data) => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>`;
 
     return forecast;
@@ -157,7 +160,7 @@ const renderForecastData = (data) => {
 
   const forecastCards = data.weatherData.daily
     .slice(1, 6)
-    .map(createForecastCard)
+    .map(generateCastWeatherCards)
     .join("");
 
   const forecastWeatherCards = `<div>
@@ -251,9 +254,11 @@ const getWeatherData = async (cityName) => {
 
   const forecastData = await fetchData(forecastDataUrl);
 
+  //console.log("forcastData: " + JSON.stringify(forecastData));
+
   return {
     cityName: displayCityName,
-    weatherData: currentData,
+    weatherData: forecastData,
   };
 };
 
