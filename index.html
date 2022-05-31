@@ -56,8 +56,8 @@
                         <h2 class="text-center">Search Form</h2>
                         <form class="p-3">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label> <input
-                                    type="text" class="form-control" id="search-input" placeholder="Enter city name">
+                                <label for="exampleInputEmail1" class="form-label"></label> <input type="text"
+                                    class="form-control" id="search-input" placeholder="Enter city name">
                             </div>
                     </div>
                     <div class="text-center">
@@ -65,17 +65,22 @@
                     </div>
                     </form>
                 </div>
-                <div id="recent-searches">
+                <!-- <div id="recent-searches">
                     <h2 class="text-center">Recent searches</h2>
 
                     <ul class="list-group">
-                        <li class="list-group-item">Berlin</li>
-                        <li class="list-group-item ">London</li>
-                        <li class="list-group-item active">Barcelona</li>
-                        <li class="list-group-item ">Istanbul</li>
-                        <li class="list-group-item ">Paris</li>
+                        <li class="list-group-item" data-city="Berlin"> Berlin
+                        </li>
+
+                        <li class="list-group-item " data-city="London">London</li>
+                        <li class="list-group-item active" data-city="Barcelona">Barcelona</li>
+                        <li class="list-group-item " data-city="Istanbul">Istanbul</li>
+                        <li class="list-group-item " data-city="Paris">Paris</li>
                     </ul>
-                </div>
+                    <div class="alert alert-warning" role="alert">
+                        No recent searches
+                    </div>
+                </div> -->
             </div>
 
             <div class="col-sm-12 col-md-9">
@@ -276,10 +281,9 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
         </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"
-        integrity="sha512-x/vqovXY/Q4b+rNjgiheBsA/vbWA3IVvsS8lkQSX1gQ4ggSJx38oI2vREZXpTzhAv6tNUaX81E7QBBzkpDQayA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
     <script src="./assets/js/index.js"></script>
