@@ -25,33 +25,67 @@ const writeToLocalStorage = (key, value) => {
   localStorage.setItem(key, stringifiedValue);
 };
 
-const renderCurrentData = () => {
+const constructUrl = (baseUrl, params) => {
+  const queryParams = new URLSearchParams(params).toString();
+
+  return queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
+};
+
+const fetchData = async (url, options = {}) => {
+  try {
+    const response = await fetch(url, options);
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("Failed to fetch data");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="text-center">
-    <h2>Wolverhampton</h2>
-    <h3>Sunday, 30th May 2022</h3>
+    <h2>${data.cityName}</h2>
+    <h3>${moment
+      .unix(data.weatherData.dt + data.weatherData.timezone_offset)
+      .format("dddd, Do MMM, YYYY HH:mm:ss")}
+        </h3>
     <hr />
-    <img src="http://openweathermap.org/img/w/04d.png" alt="weather-icon">
+    <img src="http://openweathermap.org/img/w/${
+      data.weatherData.current.weather[0].icon
+    }.png" alt="weather-icon">
     </div>
     <div>
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Temperature</div>
-        <div class="col-sm-12 col-md-8 p-3">16 &deg;C</div>
+        <div class="col-sm-12 col-md-8 p-3">${
+          data.weatherData.current.temp
+        } &deg;C</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Humidity</div>
-        <div class="col-sm-12 col-md-8 p-3">20 &percnt;</div>
+        <div class="col-sm-12 col-md-8 p-3">${
+          data.weatherData.current.humidity
+        } &percnt;</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Wind Speed</div>
-        <div class="col-sm-12 col-md-8 p-3">35 mph</div>
+        <div class="col-sm-12 col-md-8 p-3">${
+          data.weatherData.current.wind_speed
+        } mph</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">UV index</div>
         <div class="col-sm-12 col-md-8 p-3">
-            <span class="bg-success p-2 text-white">1</span>
+            <span class="bg-success p-2 text-white"${getUviClassName(
+              data.weatherData.current.uvi
+            )}">${data.weatherData.current.uvi}</span>
         </div>
     </div>
 
@@ -329,6 +363,10 @@ const handleFormSubmit = async (event) => {
   if (cityName) {
     // render weather cards
     const renderStatus = await renderWeatherInfo(cityName);
+
+    renderCurrentData();
+
+    renderForecastData();
 
     // get recentSearches from LS
     const recentSearches = readFromLocalStorage("recentSearches", []);
