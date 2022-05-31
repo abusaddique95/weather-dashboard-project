@@ -70,7 +70,7 @@ const renderCurrentData = (data) => {
         </h3>
     <hr />
     <img src="http://openweathermap.org/img/w/${
-      data.weatherData?.weather[0].icon
+      data.weatherData.weather[0].icon
     }.png" alt="weather-icon">
     </div>
     <div>
