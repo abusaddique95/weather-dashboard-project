@@ -65,8 +65,8 @@ const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="text-center">
     <h2>${data.cityName}</h2>
     <h3>${moment
-      .unix(data.weatherData + data.weatherData.timezone)
-      .format("dddd, Do MMM, YYYY HH:mm:ss")}
+      .unix(data.weatherData.timezone + data.weatherData.timezone)
+      .format("dddd, Do MMM, YYYY")}
         </h3>
     <hr />
     <img src="http://openweathermap.org/img/w/${
