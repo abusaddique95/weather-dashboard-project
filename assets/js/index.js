@@ -2,6 +2,7 @@ const recentSearchesContainer = $("#recent-searches-container");
 const weatherInfoContainer = $("#weather-info-container");
 const searchForm = $("#search-form");
 
+// read and write local storage
 const readFromLocalStorage = (key, defaultValue) => {
   // get from LS using key name
   const dataFromLS = localStorage.getItem(key);
@@ -16,7 +17,6 @@ const readFromLocalStorage = (key, defaultValue) => {
   }
 };
 
-// read and write local storage
 const writeToLocalStorage = (key, value) => {
   // convert value to string
   const stringifiedValue = JSON.stringify(value);
@@ -25,6 +25,7 @@ const writeToLocalStorage = (key, value) => {
   localStorage.setItem(key, stringifiedValue);
 };
 
+// API url function
 const constructUrl = (baseUrl, params) => {
   const queryParams = new URLSearchParams(params).toString();
 
@@ -46,57 +47,74 @@ const fetchData = async (url, options = {}) => {
   }
 };
 
+const getUviClassName = (uvi) => {
+  if (uvi >= 0 && uvi <= 2) {
+    return "bg-success";
+  }
+
+  if (uvi > 2 && uvi <= 8) {
+    return "bg-warning";
+  }
+  if (uvi > 8) {
+    return "bg-danger";
+  }
+};
+
+// render current data
 const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="text-center">
     <h2>${data.cityName}</h2>
     <h3>${moment
-      .unix(data.weatherData.dt + data.weatherData.timezone_offset)
+      .unix(data?.weatherData.dt + data?.weatherData?.timezone_offset)
       .format("dddd, Do MMM, YYYY HH:mm:ss")}
         </h3>
     <hr />
     <img src="http://openweathermap.org/img/w/${
-      data.weatherData.current.weather[0].icon
+      data.weatherData?.weather[0].icon
     }.png" alt="weather-icon">
     </div>
     <div>
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Temperature</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.current.temp
+          data.weatherData?.current?.temp
         } &deg;C</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Humidity</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.current.humidity
+          data.weatherData?.current?.humidity
         } &percnt;</div>
     </div>
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">Wind Speed</div>
         <div class="col-sm-12 col-md-8 p-3">${
-          data.weatherData.current.wind_speed
+          data.weatherData?.current?.wind_speed
         } mph</div>
     </div>
+    
 
     <div class="row g-0">
         <div class="col-sm-12 col-md-4 p-3">UV index</div>
         <div class="col-sm-12 col-md-8 p-3">
-            <span class="bg-success p-2 text-white"${getUviClassName(
-              data.weatherData.current.uvi
-            )}">${data.weatherData.current.uvi}</span>
+            <span class="bg-success p-2 text-white">${getUviClassName(
+              data?.weatherData?.current?.uvi
+            )}">${data?.weatherData?.current?.uvi}</span>
         </div>
     </div>
 
     </div>
     </div>`;
-
+  console.log(currentWeatherCard);
   weatherInfoContainer.append(currentWeatherCard);
 };
 
+// render future data
 const renderForecastData = (data) => {
-  const forecastWeatherCards = (each) => {
+  console.log(data);
+  const generateCastWeatherCards = (each) => {
     const forecast = `<div>
     <h2 class="text-center">5 day Forecast</h2>
     <HR />
@@ -126,7 +144,7 @@ const renderForecastData = (data) => {
                     <div class="row g-0 text-center">
                         <div class="col-sm-12 bg-light">UV index</div>
                         <div class="col-sm-12">
-                            <span class="bg-success p-1 text-white"${getUviClassName(
+                            <span class="bg-success p-1 text-white">${getUviClassName(
                               each.uvi
                             )}"
                                 >${each.uvi}</span
@@ -254,6 +272,7 @@ const renderForecastData = (data) => {
 
     return forecast;
   };
+  const forecastWeatherCards = data.daily.map(generateCastWeatherCards);
 
   weatherInfoContainer.append(forecastWeatherCards);
 };
@@ -262,7 +281,6 @@ const renderRecentSearches = () => {
   // get recent searches from LS
   const recentSearches = readFromLocalStorage("recentSearches", []);
 
-  // ["foo", "bar"]
   if (recentSearches.length) {
     const createRecentCity = (city) => {
       return `<li class="list-group-item" data-city="${city}"> ${city}
@@ -288,6 +306,7 @@ const renderRecentSearches = () => {
   }
 };
 
+// render error
 const renderErrorAlert = () => {
   // empty container
   weatherInfoContainer.empty();
@@ -301,13 +320,7 @@ const renderErrorAlert = () => {
 
 const renderWeatherInfo = async (cityName) => {
   try {
-    const weatherData = await getWeatherData(cityName);
-
-    windowInfoContainer.empty();
-
-    renderCurrentData(weatherData);
-
-    renderForecastData(weatherData);
+    // const weatherData = await getWeatherData(cityName);
 
     return true;
   } catch (error) {
@@ -326,7 +339,7 @@ const getWeatherData = async (cityName) => {
   );
 
   const currentData = await fetchData(currentDataUrl);
-
+  console.log(currentData);
   const lat = currentData?.coord?.lat;
   const lon = currentData?.coord?.lon;
   const displayCityName = currentData?.name;
@@ -345,9 +358,13 @@ const getWeatherData = async (cityName) => {
 
   const forecastData = await fetchData(forecastDataUrl);
 
+  console.log(forecastData);
+  console.log(currentData);
+
   return {
     cityName: displayCityName,
-    weatherData: forecastData,
+    weatherData: currentData,
+    forecastData,
   };
 };
 
@@ -367,20 +384,30 @@ const handleFormSubmit = async (event) => {
 
   // get form input value
   const cityName = $("#search-input").val();
+  console.log(cityName);
 
   // validate
   if (cityName) {
     // render weather cards
     const renderStatus = await renderWeatherInfo(cityName);
+    console.log(renderStatus);
+    const weatherData = await getWeatherData(cityName);
+    weatherInfoContainer.empty();
 
-    renderCurrentData();
+    renderCurrentData(weatherData);
 
-    renderForecastData();
+    // renderForecastData(weatherData);
+
+    // renderCurrentData();
+
+    // renderForecastData();
 
     // get recentSearches from LS
     const recentSearches = readFromLocalStorage("recentSearches", []);
 
-    if (!recentSearches.includes(cityName) && renderStatus) {
+    console.log(recentSearches);
+
+    if (!recentSearches.includes(cityName)) {
       // push city name to array
       recentSearches.push(cityName);
 
